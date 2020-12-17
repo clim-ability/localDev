@@ -13,7 +13,8 @@ services:
     environment:
       ADMIN_EMAIL: michael.kahle@yahoo.de
       CRE_DOMAIN: localhost
-      CRE_DEV: dev
+      CRE_EMPTY_SUBDOMAIN: www
+      CRE_DEVELOPMENT: dev 
     ports:
       - "80:80"
       - "443:443"
@@ -36,7 +37,7 @@ services:
           image: tamboraorg/crenginxphp:clim.16n
           container_name: crenginxphp2
           environment:
-                  CRE_SUBDOMAIN: gis
+                  CRE_SUBDOMAIN: www
                   CRE_PHP_ROOT: www/yiicre/web
                   POSTGRES_DB: gisdata,cre
                   POSTGRES_EXT: 2
