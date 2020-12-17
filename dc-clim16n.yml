@@ -1,0 +1,61 @@
+version: '2'
+services:
+
+  cre-glue:
+    image: tamboraorg/creglue:clim.16n
+    container_name: creglue
+    volumes:
+     - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  cre-proxy:
+    image: tamboraorg/creproxy:clim.16n
+    container_name: creproxy
+    environment:
+      ADMIN_EMAIL: michael.kahle@yahoo.de
+      CRE_DOMAIN: localhost
+      CRE_DEV: dev
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./volumes/certs:/etc/letsencrypt"
+    volumes_from:
+      - cre-glue
+
+
+  cre-php:
+   image: tamboraorg/crephp:clim.16n
+   container_name: crephp
+   environment:
+     CRE_NGINX: crenginxphp
+   volumes_from:
+    - cre-glue
+    - cre-nginx-php
+
+  cre-nginx-php2:
+          image: tamboraorg/crenginxphp:clim.16n
+          container_name: crenginxphp2
+          environment:
+                  CRE_SUBDOMAIN: gis
+                  CRE_PHP_ROOT: www/yiicre/web
+                  POSTGRES_DB: gisdata,cre
+                  POSTGRES_EXT: 2
+                  POSTGRES_USER: climibility
+                  POSTGRES_PWD: keepMeSecret
+          volumes:
+                  - ./volumes/www/yiicre:/cre/www/yiicre
+          volumes_from:
+                  - cre-glue
+
+  cre-php2a:
+    image: tamboraorg/crephp:clim.16n      
+    container_name: crephp2a
+    environment:
+            CRE_NGINX: crenginxphp2
+    volumes_from:
+            - cre-glue
+            - cre-nginx-php2
+
+
+ 
+# docker-compose  --file dc-clim16n.yml up -d
