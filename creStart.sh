@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 /data/dockerCRE/creStop.sh
 
 #Update container
