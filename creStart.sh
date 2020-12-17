@@ -1,5 +1,5 @@
 #!/bin/bash 
-/data/dockerCRE/creStop.sh
+./creStop.sh
 
 #Update container
 echo "Update CRE container"
@@ -13,13 +13,13 @@ echo "Update CRE container"
 #Run containers
 echo "Start CRE container"
 REMDIR="$PWD"
-cd /data/dockerCRE
+# cd /data/dockerCRE
 docker-compose  --file dc-clim16n.yml up -d
 cd $REMDIR
 
 #Show status
 echo "$(docker ps -a)"
-echo "$(ls -l /data/dockerCRE/volumes/postgres/dumps/*/*)"
+echo "$(ls -l ./volumes/postgres/dumps/*/*)"
 
 #Cleanup
 echo "Cleanup containers"

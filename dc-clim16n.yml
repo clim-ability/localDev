@@ -23,16 +23,6 @@ services:
     volumes_from:
       - cre-glue
 
-
-  cre-php:
-   image: tamboraorg/crephp:clim.16n
-   container_name: crephp
-   environment:
-     CRE_NGINX: crenginxphp
-   volumes_from:
-    - cre-glue
-    - cre-nginx-php
-
   cre-nginx-php2:
           image: tamboraorg/crenginxphp:clim.16n
           container_name: crenginxphp2
@@ -57,6 +47,22 @@ services:
             - cre-glue
             - cre-nginx-php2
 
+  cre-postgis:
+          image: tamboraorg/crepostgis:clim.16n
+          container_name: crepostgis
+          environment:
+                  POSTGRES_ROOT_PWD: keepMeSecret
+                  POSTGRES_EXT: 1
+                  CRE_SUBDOMAIN: db
+                  CRE_PORT: 5432
+          ports:
+                  - "5432:5432"
+          volumes:
+                  - ./volumes/postgres/dumps/cre:/cre/postgres/dumps/cre
+                  - ./volumes/postgres/dumps/gisdata:/cre/postgres/dumps/gisdata
+                  - ./volumes/postgres/data:/var/lib/postgresql  
+          volumes_from:
+                  - cre-glue   
 
  
 # docker-compose  --file dc-clim16n.yml up -d
