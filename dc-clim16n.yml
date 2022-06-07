@@ -66,3 +66,7 @@ services:
 
  
 # docker-compose  --file dc-clim16n.yml up -d
+
+# docker system prune -f
+# /etc/init.d/apache2 stop
+#  sudo /home/kmicha/anaconda3/bin/docker-compose  --file dc-clim16n.yml up -d
